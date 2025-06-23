@@ -1,0 +1,22 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+  
+  - name: Remove php support for apache
+    pacman:
+      name: 
+        - php 
+        - php-apache
+      state: absent
+
+  - name: Remove apache package
+    pacman:
+      name: apache
+      state: absent
+
+  - name: Remove index.html file
+    ansible.builtin.file:
+      path: /srv/http/index.html
+      state: absent 

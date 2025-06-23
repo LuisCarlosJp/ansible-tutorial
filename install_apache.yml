@@ -1,0 +1,42 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+  
+
+  - name: update repository index
+    pacman:
+      update_cache: yes
+
+  - name: install apache package
+    pacman:
+      name: apache
+      state: latest
+  
+  - name: Make sure a service unit is running
+    ansible.builtin.systemd_service:
+      state: started
+      enabled: yes
+      name: httpd
+
+  - name: add php support for apache
+    pacman:
+      name: 
+        - php 
+        - php-apache
+      state: latest
+
+  - name: Create an index.html file with a greeting message.
+    ansible.builtin.copy:
+      dest: /srv/http/index.html
+      content: |
+        <html>
+         <title>Welcome</title>
+          <body>
+           <h2>Welcome to my server</h2>
+          </body>
+        </html>
+      owner: root
+      group: root
+      mode: '0644'
