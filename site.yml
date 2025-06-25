@@ -43,6 +43,38 @@
       mode: '0644' 
     when: ansible_facts['distribution'] == "Archlinux"
 
+- hosts: workstations
+  become: true
+  tasks:
+    - name: install unzip
+      package:
+        name: unzip
+
+    - name: install terraform
+      unarchive:
+        src:  https://releases.hashicorp.com/terraform/1.12.2/terraform_1.12.2_linux_amd64.zip       
+        dest: /usr/local/bin
+        remote_src: yes
+        mode: 0755
+        owner: root
+        group: root
+
+    - name: Baixar AWS CLI zip
+      get_url:
+        url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+        dest: /tmp/awscliv2.zip
+        mode: '0644'
+
+    - name: Descompactar o AWS CLI zip
+      unarchive:
+        src: /tmp/awscliv2.zip
+        dest: /tmp
+        remote_src: yes
+
+    - name: Instalar AWS CLI
+      command: /tmp/aws/install
+      become: yes
+
 - hosts: db_servers
   become: true
   tasks:
