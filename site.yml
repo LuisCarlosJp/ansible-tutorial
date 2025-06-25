@@ -34,16 +34,10 @@
     when: ansible_facts['distribution'] == "Archlinux" 
 
   - name: Create an index.html file with a greeting message.
-    tags: copy
+    tags: apache,apache2,httpd 
     ansible.builtin.copy:
       dest: /srv/http/index.html
-      content: |
-        <html>
-         <title>Welcome</title>
-          <body>
-           <h2>Welcome to my server</h2>
-          </body>
-        </html>
+      src: default_site.html
       owner: root
       group: root
       mode: '0644' 
