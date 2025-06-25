@@ -1,5 +1,4 @@
 [web_servers]
 192.168.0.101 ansible_user=luiscarlosjp apache_package=apache php_package=php php_module_package=php-apache
 
-[workstations]
-192.168.0.101 ansible_user=luiscarlosjp apache_package=apache php_package=php php_module_package=php-apache
+
