@@ -1,0 +1,65 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+  
+  - name: Install updates
+    pacman:
+      update_cache: yes
+      upgrade: yes
+    when: ansible_distribution == "Archlinux"
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: install apache and php package
+    package:
+      name: 
+        - apache
+        - php 
+        - php-apache 
+      state: latest
+    when: ansible_facts['distribution'] == "Archlinux" 
+
+  - name: Make sure a service unit is running
+    ansible.builtin.systemd_service:
+      state: started
+      enabled: yes
+      name: httpd
+    when: ansible_facts['distribution'] == "Archlinux" 
+
+  - name: Create an index.html file with a greeting message.
+    ansible.builtin.copy:
+      dest: /srv/http/index.html
+      content: |
+        <html>
+         <title>Welcome</title>
+          <body>
+           <h2>Welcome to my server</h2>
+          </body>
+        </html>
+      owner: root
+      group: root
+      mode: '0644' 
+    when: ansible_facts['distribution'] == "Archlinux"
+
+- hosts: db_servers
+  become: true
+  tasks:
+
+  - name: install mariadb package (Ubuntu)
+    apt:
+      name: mariadb-server
+      state: latest
+    when: ansible_distribution == "Ubuntu"   
+      
+- hosts: file_servers
+  become: true
+  tasks:
+
+  - name: install samba package
+    package:
+      name: samba
+      state: latest
