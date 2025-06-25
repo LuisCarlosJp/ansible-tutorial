@@ -5,6 +5,7 @@
   pre_tasks:
   
   - name: Install updates
+    tags: always
     pacman:
       update_cache: yes
       upgrade: yes
@@ -15,6 +16,7 @@
   tasks:
 
   - name: install apache and php package
+    tags: apache,php-apache,ArchLinux
     package:
       name: 
         - apache
@@ -24,6 +26,7 @@
     when: ansible_facts['distribution'] == "Archlinux" 
 
   - name: Make sure a service unit is running
+    tags: service, httpd
     ansible.builtin.systemd_service:
       state: started
       enabled: yes
@@ -31,6 +34,7 @@
     when: ansible_facts['distribution'] == "Archlinux" 
 
   - name: Create an index.html file with a greeting message.
+    tags: copy
     ansible.builtin.copy:
       dest: /srv/http/index.html
       content: |
@@ -50,6 +54,7 @@
   tasks:
 
   - name: install mariadb package (Ubuntu)
+    tags: mariadb,db,Ubuntu
     apt:
       name: mariadb-server
       state: latest
@@ -60,6 +65,7 @@
   tasks:
 
   - name: install samba package
+    tags: samba
     package:
       name: samba
       state: latest
