@@ -4,13 +4,23 @@
   become: true
   pre_tasks:
   
-  - name: Install updates
+  - name: update repo cache (Archlinux) 
     tags: always
     pacman:
       update_cache: yes
-      upgrade: yes
+    changed_when: false
     when: ansible_distribution == "Archlinux"
 
+- hosts: all
+  become: true
+  tasks:
+
+  - name: add ssh key for shirou
+    tags: always
+    authorized_key:
+      user: shirou
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAnFFgQVnC3NzYkiicJluND/9fRiO7rES7p3RyGZ6NrR ansible"
+ 
 - hosts: web_servers
   become: true
   tasks:

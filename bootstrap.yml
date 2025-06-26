@@ -1,0 +1,37 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+  
+  - name: Install updates (pacman)
+    tags: always
+    pacman:
+      update_cache: yes
+      upgrade: yes
+    when: ansible_distribution == "Archlinux"
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create shirou user
+    tags: always
+    user:
+      name: shirou
+      groups: root
+
+  - name: add ssh key for shirou
+    tags: always
+    authorized_key:
+      user: shirou
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAnFFgQVnC3NzYkiicJluND/9fRiO7rES7p3RyGZ6NrR ansible"
+  
+  - name: add sudoers file for shirou
+    tags: alwats
+    copy:
+      src: sudoer_shirou
+      dest: /etc/sudoers.d/shirou
+      owner: root
+      group: root
+      mode: 0440
