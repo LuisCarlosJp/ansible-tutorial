@@ -1,0 +1,32 @@
+- name: install unzip
+  package:
+    name: unzip
+
+- name: install terraform
+  unarchive:
+    src:  https://releases.hashicorp.com/terraform/1.12.2/terraform_1.12.2_linux_amd64.zip       
+    dest: /usr/local/bin
+    remote_src: yes
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Download AWS CLI zip
+  get_url:
+    url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    dest: /tmp/awscliv2.zip
+    mode: '0644'
+
+- name: Unpack AWS CLI zip
+  unarchive:
+    src: /tmp/awscliv2.zip
+    dest: /tmp
+    remote_src: yes
+
+- name: Install AWS CLI
+  command: /tmp/aws/install
+  become: yes
+  args:
+    creates: /usr/local/bin/aws
+
+

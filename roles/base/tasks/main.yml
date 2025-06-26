@@ -1,0 +1,5 @@
+- name: add ssh key for shirou
+  authorized_key:
+    user: shirou
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAnFFgQVnC3NzYkiicJluND/9fRiO7rES7p3RyGZ6NrR ansible"
+
