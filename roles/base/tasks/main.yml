@@ -3,3 +3,12 @@
     user: shirou
     key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAnFFgQVnC3NzYkiicJluND/9fRiO7rES7p3RyGZ6NrR ansible"
 
+- name: generate sshd_config file from template
+  tags: ssh
+  template:
+    src: "{{ ssh_template_file }}"
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart_sshd
