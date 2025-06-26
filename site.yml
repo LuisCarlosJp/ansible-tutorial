@@ -90,6 +90,8 @@
     - name: Instalar AWS CLI
       command: /tmp/aws/install
       become: yes
+      args:
+        creates: /usr/local/bin/aws
 
 - hosts: db_servers
   become: true
