@@ -29,4 +29,6 @@
   args:
     creates: /usr/local/bin/aws
 
-
+- name: Install Docker
+  pacman:
+    name: docker
